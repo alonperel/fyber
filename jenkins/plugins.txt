@@ -1,0 +1,2 @@
+#pluginID:version
+structs:1.2
