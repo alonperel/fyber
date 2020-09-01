@@ -1,7 +1,6 @@
 DOCKER_PATH := $(shell which docker)
 HOME_PATH := $$HOME
 VALUE_HOME_PATH := $(value HOME_PATH)
-test: build-homwwork-service run-homwwork-service register-homework-in-consul
 launch: consul-server consul-client jenkins-build jenkins-run build-homwwork-service run-homwwork-service register-homework-in-consul
 
 git:
