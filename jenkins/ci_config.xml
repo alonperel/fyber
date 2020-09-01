@@ -1,0 +1,43 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.39">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.6.0"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.6.0">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.80">
+    <script>pipeline {
+   agent any
+
+   stages {
+      stage(&apos;git repo&apos;) {
+         steps {
+                 sh &apos;git clone https://github.com/alonperel/fyber.git&apos;
+            }
+      }
+      stage(&apos;Docker Build&apos;) {
+          steps {
+              script {
+                  def customImage = docker.build(&quot;homework&quot;, &quot;/var/jenkins_home/workspace/ci-groovy/fyber/homework-service&quot;) 
+              }
+          }
+      }
+      stage(&apos;clean git repo&apos;) {
+          steps {
+               sh &quot;rm -rf fyber&quot;
+              }
+      }
+   }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
