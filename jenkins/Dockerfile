@@ -15,16 +15,3 @@ RUN mkdir /var/jenkins_home/jobs/cd-groovy && mkdir /var/jenkins_home/jobs/ci-gr
 ADD cd_config.xml /var/jenkins_home/jobs/cd-groovy/config.xml  
 ADD ci_config.xml /var/jenkins_home/jobs/ci-groovy/config.xml
 
-
-
-
-#jenkin-cli installation
-#RUN mkdir /opt/jenkins/
-#RUN apt-get -y update
-#ADD jenkins-cli.jar /var/jenkins_home/
-#COPY jenkins-cli.sh /var/jenkins_home/
-
-#RUN echo “alias jenkins-cli=‘java -jar /var/jenkins_home/jenkins-cli.jar -s http://127.0.0.1:8080/ -auth admin:admin123’ ” >> ~/.bashrc
-#COPY ci.groovy /var/jenkins_home/
-#RUN java -jar /var/jenkins_home/jenkins-cli.jar -s http://127.0.0.1:8080/ -auth admin:admin123 create-job ci-groovy
-
