@@ -1,7 +1,8 @@
 DOCKER_PATH := $(shell which docker)
 HOME_PATH := $$HOME
 VALUE_HOME_PATH := $(value HOME_PATH)
-launch: consul-server consul-client jenkins-build jenkins-run jenkins-create-ci-job jenkins-create-cd-job build-homwwork-service run-homwwork-service register-homework-in-consul
+#test: jenkins-build-jobs
+launch: consul-server consul-client jenkins-build jenkins-run jenkins-create-ci-job jenkins-create-cd-job jenkins-build-jobs register-homework-in-consul
 
 git:
 	git clone https://github.com/alonperel/fyber.git
@@ -31,6 +32,15 @@ jenkins-create-cd-job:
 	docker exec jenkins mkdir /var/jenkins_home/jobs/cd-groovy/
 	docker exec jenkins mv /usr/share/jenkins/cd_config.xml /var/jenkins_home/jobs/cd-groovy/config.xml
 
+int_admin_pass := $(shell (docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword))
+crumb := $(shell (curl -s --cookie-jar /tmp/cookies -u admin:$(int_admin_pass) http://127.0.0.1:8080/crumbIssuer/api/json | jq '.crumb' | sed 's/\"//g'))
+token := $(shell (curl -X POST --cookie /tmp/cookies http://127.0.0.1:8080/me/descriptorByName/jenkins.security.ApiTokenProperty/generateNewToken?newTokenName=alon -H "Jenkins-Crumb:$(crumb)" -u admin:$(int_admin_pass) | jq '.data.tokenValue' | sed 's/\"//g' ))
+
+
+jenkins-build-jobs:
+	curl -X POST --USER admin:$(token) http://127.0.0.1:8080/job/ci-groovy/build
+	curl -X POST --USER admin:$(token) http://127.0.0.1:8080/job/cd-groovy/build
+	
 build-homwwork-service:
 	docker build -t simple-flask-app:latest $(CURDIR)/homework-service
 
