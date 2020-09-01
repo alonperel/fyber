@@ -1,7 +1,7 @@
 DOCKER_PATH := $(shell which docker)
 HOME_PATH := $$HOME
 VALUE_HOME_PATH := $(value HOME_PATH)
-launch: consul-server consul-client jenkins-build jenkins-run build-homwwork-service run-homwwork-service register-homework-in-consul
+launch: consul-server consul-client jenkins-build jenkins-run jenkins-create-ci-job jenkins-create-cd-job build-homwwork-service run-homwwork-service register-homework-in-consul
 
 git:
 	git clone https://github.com/alonperel/fyber.git
@@ -23,6 +23,14 @@ jenkins-build:
 jenkins-run:
 	docker run -d  -p 8080:8080 -p 50000:50000 -v $(DOCKER_PATH):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock -v $($$HOME)/:/var/jenkins_home --tty --name=jenkins my_jenkins
 	
+jenkins-create-ci-job:
+	docker exec jenkins mkdir /var/jenkins_home/jobs/ci-groovy/
+	docker exec jenkins mv /usr/share/jenkins/ci_config.xml /var/jenkins_home/jobs/ci-groovy/config.xml
+
+jenkins-create-cd-job:
+	docker exec jenkins mkdir /var/jenkins_home/jobs/cd-groovy/
+	docker exec jenkins mv /usr/share/jenkins/cd_config.xml /var/jenkins_home/jobs/cd-groovy/config.xml
+
 build-homwwork-service:
 	docker build -t simple-flask-app:latest $(CURDIR)/homework-service
 
