@@ -1,0 +1,15 @@
+#pluginID:version
+structs:1.20
+#script-security:1.74
+#job-dsl:1.77
+#workflow-aggregator:2.6
+#workflow-api:2.40
+#workflow-scm-step:2.11
+#workflow-cps:2.8
+#workflow-step-api:2.22
+#workflow-support:3.5
+#scm-api:2.6.3
+#script-security:1.74
+#structs:1.20
+#ace-editor:1.580.1
+#jquery-detached:1.580.12
