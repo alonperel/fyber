@@ -1,9 +1,6 @@
 DOCKER_PATH := $(shell which docker)
 HOME_PATH := $$HOME
 VALUE_HOME_PATH := $(value HOME_PATH)
-test: jenkins-run jenkins-make
-build-docker: jenkins-run
-test-jobs: check_params_values 
 launch: consul-network consul-server consul-client jenkins-build jenkins-run jenkins-make
 build-homework-service: build-homwwork-service run-homwwork-service register-homework-in-consul
 
