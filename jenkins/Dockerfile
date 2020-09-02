@@ -11,10 +11,3 @@ ADD https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz /usr/local/
 USER root
 RUN tar xzvf /usr/local/bin/docker-17.04.0-ce.tgz 
 
-#add pipeline scripts to jenkins
-#WORKDIR /var/jenkins_home/jobs/
-#RUN mkdir -p /var/jenkins_home/jobs/cd-groovy 
-#RUN mkdir -p /var/jenkins_home/jobs/ci-groovy
-#ADD cd_config.xml /var/jenkins_home/jobs/cd-groovy/config.xml  
-#ADD ci_config.xml /var/jenkins_home/jobs/ci-groovy/config.xml
-
